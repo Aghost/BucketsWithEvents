@@ -1,6 +1,7 @@
 ﻿using System;
-using static System.Console;
 using Buckets.Models;
+
+using static System.Console;
 using static Buckets.Models.ContainerFactory;
 
 namespace Buckets.App
