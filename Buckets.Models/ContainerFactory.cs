@@ -21,11 +21,11 @@ namespace Buckets.Models
                 case ContainerType.RainBarrel:
                     return capacity switch {
                         int n when (n < 1) => RainBarrel.CreateDefault(),
-                        int n when (n > 0) => (content > -1) ? RainBarrel.CreateDefault(capacity, content) : RainBarrel.CreateDefault(capacity, content),
+                        int n when (n > 0) => (content > -1) ? RainBarrel.CreateDefault(capacity, content) : RainBarrel.CreateDefault(content),
                         _ => throw new ArgumentException("ContainerFactory RainBarrel Argument Exception\n")
                     };
                 case ContainerType.OilBarrel:
-                    return OilBarrel.CreateDefault();
+                    return (capacity > 0) ? OilBarrel.CreateDefault(capacity) : OilBarrel.CreateDefault();
                 default:
                     throw new ArgumentException("ContainerFactory Switch is all out of options\n");
             }

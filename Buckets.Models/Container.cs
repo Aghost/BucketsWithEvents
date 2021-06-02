@@ -33,44 +33,55 @@ namespace Buckets.Models
                 switch (value) {
                     case int i when (i <= 0):
                         break;
-                    case int i when (i + Content <= _Capacity): // When not overflowing
-                        this._Content = value;
-                        this.OnAmountChanged?.Invoke(this, value);
+                    case int i when (i < _Capacity): // When not overflowing
+                        _Content = value;
+                        OnAmountChanged?.Invoke(this, value);
                         break;
-                    case int i when (i + Content >= _Capacity):  // overflowing
-                        this.OnReachCapacity?.Invoke(this, value);
-                        if ((i + Content) > Capacity) {
-                            this.OnOverflowing?.Invoke(this, value);
+                    case int i when (i >= _Capacity):  // overflowing
+                        OnReachCapacity?.Invoke(this, value);
+                        if (i > Capacity) {
+                            OnOverflowing?.Invoke(this, value);
                         } else {
-                            this._Content = value;
+                            _Content = value;
+                            OnAmountChanged?.Invoke(this, value);
                         }
-                        /*
-                        */
                         break;
                     default: break;
                 }
             }
         }
-
         public bool Fill(int amount) {
-            if ((amount + Content) < Capacity) {
-                Content += amount;
-            } else {
-                //Raiseoverflow event?
-                return false;
+            switch (amount) {
+                case int i when (i <= 0):
+                    return false;
+                case int i when (i + Content < _Capacity): // When not overflowing
+                    _Content += amount;
+                    this.OnAmountChanged?.Invoke(this, amount);
+                    return true;
+                case int i when (i + Content >= _Capacity):  // overflowing
+                    this.OnReachCapacity?.Invoke(this, amount);
+                    if (i + Content > Capacity) {
+                        //TODO: if overflowing, OnCustomEvent etc..
+                        this.OnOverflowing?.Invoke(this, amount);
+                        return false;
+                    } else {
+                        _Content += amount;
+                        this.OnAmountChanged?.Invoke(this, amount);
+                        return true;
+                    }
+                default: return false;
             }
-
-            return true;
         }
+
+        public void Fill(int amount, Container container) {
+            Content += amount;
+        }
+
 
         public void SubscribeToEvents() {
             this.OnReachCapacity += ContainerEvents.ContainerReachCapacity;
             this.OnOverflowing += ContainerEvents.ContainerOverflowing;
             this.OnAmountChanged += ContainerEvents.ContainerAmountChanged;
-        }
-
-        public void Fill(int amount, Container container) {
-            Content += amount;
         }
 
         public void Empty() {
