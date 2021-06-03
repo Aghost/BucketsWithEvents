@@ -7,17 +7,17 @@ namespace Buckets.Models
     {
         public static void ContainerReachCapacity(object sender, int e) {
             var container = (Container)sender;
-            WriteLine($"{container.Content} reached capacity event {e}");
+            WriteLine($"[reached-capacity-event]{container.Content}, {e}");
         }
 
         public static void ContainerOverflowing(object sender, int e) {
             var container = (Container)sender;
-            WriteLine($"{container.Content} overflowing event {e}");
+            WriteLine($"[overflow-event]{container.Content}, {e}");
         }
 
         public static void ContainerAmountChanged(object sender, int e) {
             var container = (Container)sender;
-            WriteLine($"{container.Content} amount changed event, {e}");
+            WriteLine($"[amount-changed-event]{container.Content}, +{e}");
         }
     }
 }

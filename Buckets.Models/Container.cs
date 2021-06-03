@@ -27,6 +27,7 @@ namespace Buckets.Models
             get => this._Capacity;
             //set => this._Capacity = value;
         }
+
         public int Content {
             get => this._Content;
             set {
@@ -50,6 +51,7 @@ namespace Buckets.Models
                 }
             }
         }
+
         public bool Fill(int amount) {
             switch (amount) {
                 case int i when (i <= 0):
@@ -67,7 +69,7 @@ namespace Buckets.Models
                     } else {
                         _Content += amount;
                         this.OnAmountChanged?.Invoke(this, amount);
-                        return true;
+                        return false;
                     }
                 default: return false;
             }

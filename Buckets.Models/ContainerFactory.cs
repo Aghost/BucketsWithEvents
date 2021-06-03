@@ -6,9 +6,8 @@ namespace Buckets.Models
     {
         public static Container AddContainer(Enum type, int capacity = -1, int content = -1)
         {
-            switch (type)
-            {
-                // het is niet mooi, maar het was wel leerzaam en weinig lines of code
+            // het is niet mooi, maar het was wel leerzaam en weinig lines of code
+            switch (type) {
                 case ContainerType.Bucket:
                     if (content == -1 && capacity == -1)
                         return Bucket.CreateDefault();

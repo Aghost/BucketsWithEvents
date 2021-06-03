@@ -2,8 +2,7 @@ using System;
 
 namespace Buckets.Models
 {
-    public enum ContainerType
-    {
+    public enum ContainerType {
         Bucket,
         RainBarrel,
         OilBarrel
